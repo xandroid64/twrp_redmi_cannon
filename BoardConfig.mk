@@ -37,7 +37,7 @@ TARGET_BOARD_SUFFIX := _64
 TARGET_USES_64_BIT_BINDER := true
 
 # Assert
-TARGET_OTA_ASSERT_DEVICE := cannong
+TARGET_OTA_ASSERT_DEVICE := cannon,cannong
 
 # File systems
 BOARD_HAS_LARGE_FILESYSTEM := true

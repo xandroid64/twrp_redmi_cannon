@@ -22,17 +22,17 @@ $(call inherit-product-if-exists, $(SRC_TARGET_DIR)/product/embedded.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 
-# Inherit from cannong device
-$(call inherit-product, device/xiaomi/cannong/device.mk)
+# Inherit from device
+$(call inherit-product, device/xiaomi/cannon/cannon.mk)
 
 # Inherit some common Omni stuff.
 $(call inherit-product, vendor/omni/config/common.mk)
 $(call inherit-product, vendor/omni/config/gsm.mk)
 
 # Device identifier. This must come after all inclusions
-PRODUCT_DEVICE := cannong
+PRODUCT_DEVICE := cannon
 PRODUCT_NAME := omni_cannon
 PRODUCT_BRAND := Redmi
-PRODUCT_MODEL := Redmi
+PRODUCT_MODEL := Redmi Note 9T
 PRODUCT_MANUFACTURER := xiaomi
-PRODUCT_RELEASE_NAME := Redmi Redmi
+PRODUCT_RELEASE_NAME := Redmi Note 9T
