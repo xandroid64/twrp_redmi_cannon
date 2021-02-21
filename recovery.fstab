@@ -5,7 +5,7 @@
 /vendor_image       emmc      vendor                                                                flags=display="Vendor image";backup=1;flashimg=1;logical;
 /product            ext4      product                                                               flags=display="Product";backup=1;logical;
 /product_image      emmc      product                                                               flags=display="Product image";backup=1;flashimg=1;logical;
-/data               f2fs      /dev/block/by-name/userdata                                           flags=display="Data";
+/data               f2fs      /dev/block/by-name/userdata                                           flags=display="Data";filencryption=aes-256-xts:aes-256-cts:v1;
 /cache              ext4      /dev/block/by-name/cache                                              flags=display="Cache";
 /misc               emmc      /dev/block/by-name/misc                                               flags=display="Misc";backup=1;flashimg=1;
 /recovery           emmc      /dev/block/by-name/recovery                                           flags=display="Recovery";backup=1;flashimg=1;
