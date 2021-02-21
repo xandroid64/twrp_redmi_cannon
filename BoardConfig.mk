@@ -49,10 +49,6 @@ TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
 TARGET_COPY_OUT_VENDOR := vendor
 
-# A/B
-AB_OTA_UPDATER := true
-TW_INCLUDE_REPACKTOOLS := true
-
 # Kernel
 BOARD_KERNEL_CMDLINE := bootopt=64S3,32N2,64N2 androidboot.selinux=permissive androidboot.usbconfigfs=true
 TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/Image.gz
