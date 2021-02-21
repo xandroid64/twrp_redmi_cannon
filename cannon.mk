@@ -17,3 +17,21 @@
 #
 
 LOCAL_PATH := device/xiaomi/cannon
+
+# Boot
+PRODUCT_PACKAGES += \
+   android.hardware.boot@1.0-impl.recovery \
+   android.hardware.boot@1.0-service.recovery
+
+# Fastbootd
+PRODUCT_PACKAGES += \
+   fastbootd
+
+# Health hal
+PRODUCT_PACKAGES += \
+   android.hardware.health@2.0-impl.recovery \
+   android.hardware.health@2.0-service.recovery
+
+# Gatekeeper
+PRODUCT_PACKAGES += \
+   android.hardware.gatekeeper@1.0-impl.recovery
