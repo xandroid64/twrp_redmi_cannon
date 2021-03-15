@@ -1,0 +1,60 @@
+name: TWRP Build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-20.04
+
+    steps:
+    - name: Set build date
+      id: get-date
+      run: |
+        echo ::set-output name=date::$(/bin/date -u "+%Y%m%d")
+    - name: When is this building
+      run: |
+        echo 'Building on ${{ steps.get-date.outputs.date }}'
+    - name: Setup Build System
+      run: |
+        sudo apt install -y openssh-server screen python git openjdk-8-jdk android-tools-adb bc bison build-essential curl flex g++-multilib gcc-multilib gnupg gperf imagemagick lib32ncurses-dev lib32readline-dev lib32z1-dev  liblz4-tool libncurses5-dev libsdl1.2-dev libssl-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc yasm zip zlib1g-dev libtinfo5 libncurses5
+    - name: Sync TWRP
+      run: |
+        sudo wget 'https://storage.googleapis.com/git-repo-downloads/repo' -P /usr/local/sbin/
+        sudo chmod +x /usr/local/sbin/repo
+        git config --global user.name "${GITHUB_USER}"
+        git config --global user.email "${GITHUB_EMAIL}"
+        mkdir /home/runner/work/twrp && cd /home/runner/work/twrp
+        repo init -u https://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni -b twrp-10.0 --depth=1
+        repo sync --no-tags --no-clone-bundle -j$(nproc --all)
+        rm -rf .repo
+      env:
+        GITHUB_EMAIL: ${{ secrets.EMAIL }}
+        GITHUB_USER: ${{ secrets.USERNAME }}
+    - name: Build TWRP
+      run: |
+        cd /home/runner/work/twrp
+        export ALLOW_MISSING_DEPENDENCIES=true && . build/envsetup.sh && lunch omni_cannon-eng && mka recoveryimage
+        cp out/target/product/cannon/recovery.img twrp-cannon-${{ steps.get-date.outputs.date }}.img
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: true
+        prerelease: true
+    - name: Upload Release Asset
+      id: upload-release-asset 
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: /home/runner/work/twrp/twrp-cannon-${{ steps.get-date.outputs.date }}.img
+        asset_name: twrp-cannon-${{ steps.get-date.outputs.date }}.img
+        asset_content_type: application/img
